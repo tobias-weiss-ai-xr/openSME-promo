@@ -1,0 +1,25 @@
+services:
+  web:
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./robots.txt:/usr/share/nginx/html/robots.txt:ro
+      - ./sitemap.xml:/usr/share/nginx/html/sitemap.xml:ro
+      - ./imprint:/usr/share/nginx/html/imprint:ro
+      - ./privacy:/usr/share/nginx/html/privacy:ro
+      - ./ai-statement:/usr/share/nginx/html/ai-statement:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.opensme-promo-http.rule=Host(`opensme.graphwiz.ai`)"
+      - "traefik.http.routers.opensme-promo-http.entrypoints=web"
+      - "traefik.http.routers.opensme-promo-http.middlewares=https-redirect@file"
+      - "traefik.http.routers.opensme-promo.rule=Host(`opensme.graphwiz.ai`)"
+      - "traefik.http.routers.opensme-promo.entrypoints=websecure"
+      - "traefik.http.routers.opensme-promo.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.opensme-promo.loadbalancer.server.port=80"
+
+networks:
+  default:
+    external: true
+    name: traefik-web

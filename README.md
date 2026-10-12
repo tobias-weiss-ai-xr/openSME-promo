@@ -1,0 +1,26 @@
+# openSME Promo Website
+
+Landing page for [opensme.graphwiz.ai](https://opensme.graphwiz.ai) — the
+self-hosted software suite for small and medium business
+([openSME-compose](https://github.com/tobias-weiss-ai-xr/openSME-compose)).
+
+- Single-file static page (`index.html`) — no build step
+- English landing, dark theme (openSME palette)
+- Legal pages: `/imprint/` · `/privacy/` · `/ai-statement/` (bilingual DE/EN)
+- `robots.txt` + `sitemap.xml` for the four pages
+
+## Deploy
+
+Production is served from `/opt/opensme-promo` on the openedusuite.org host
+(195.90.216.140) by the `opensme-promo` nginx container behind Traefik
+(`Host(opensme.graphwiz.ai)` → `opensme-promo@file`, see
+`/root/git/docker-traefik/dynamic/routers.yml`). Files are copied there via
+`sudo`; the repo mirrors that state.
+
+`docker-compose.yml` reproduces the same nginx + Traefik setup for fresh
+deploys:
+
+```bash
+docker compose pull
+docker compose up -d
+```
