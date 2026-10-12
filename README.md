@@ -18,9 +18,16 @@ Production is served from `/opt/opensme-promo` on the openedusuite.org host
 `sudo`; the repo mirrors that state.
 
 `docker-compose.yml` reproduces the same nginx + Traefik setup for fresh
-deploys:
+installs.
+
+### Deploy from this repo (production)
 
 ```bash
-docker compose pull
-docker compose up -d
+# from WSL (key: ~/.ssh/id_ed25519_ansible on 195.90.216.140)
+wsl bash scripts/deploy.sh
 ```
+
+Syncs `index.html`, `robots.txt`, `sitemap.xml` and the legal pages to
+`/opt/opensme-promo` on the production host (idempotent; updates the live
+site immediately — the bind-mounted nginx container picks the files up
+directly).
